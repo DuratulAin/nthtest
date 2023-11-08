@@ -15,8 +15,8 @@ st.title('Model Prediction App')
 sample_data = pd.read_csv('Raw spectral 1.csv')
 
 # Print out the raw spectral CSV where the first row contains wavelength and the second row contains spectral value
-st.write('Raw spectral CSV:')
-st.table(sample_data)
+# st.write('Raw spectral CSV:')
+# st.table(sample_data)
 
 # Load the UMAP model from the joblib file
 umap_model = load_model('umap_model_10.joblib').transform(sample_data)
