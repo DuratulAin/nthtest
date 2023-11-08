@@ -1,38 +1,55 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import joblib
 
-"""
-# Welcome to Streamlit!
+# Function to load a model from a pickle file
+def load_model(model_file):
+    with open(model_file, 'rb') as f:
+        model = joblib.load(f)
+    return model
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+# Streamlit UI elements
+st.title('Model Prediction App')
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+# Load sample data from a CSV file
+sample_data = pd.read_csv('Raw spectral 1.csv')
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+# Print out the raw spectral CSV where the first row contains wavelength and the second row contains spectral value
+st.write('Raw spectral CSV:')
+st.table(sample_data)
 
+# Load the UMAP model from the joblib file
+umap_model = load_model('umap_model_10.joblib').transform(sample_data)
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+# Button to trigger prediction for both models
+if st.button('Predict'):
+    # Load the Linear Regression model and make a prediction
+    linear_reg_model = load_model('linear_reg_model_10.joblib')
+    linear_reg_prediction = linear_reg_model.predict(sample_data)
 
-    Point = namedtuple('Point', 'x y')
-    data = []
+    # Load the Decision Tree model and make a prediction
+    decision_tree_model = load_model('decision_tree_model_10.joblib')
+    decision_tree_prediction = decision_tree_model.predict(sample_data)
 
-    points_per_turn = total_points / num_turns
+    # Load the Linear Regression model with UMAP and make prediction
+    linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
+    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+    # Load the Decision Tree model with UMAP and make prediction
+    decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
+    decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+    # Display predictions from both models in a larger and bold format
+    st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
+
+    st.markdown('**Linear Regression Model:**')
+    st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+    st.markdown('**Decision Tree Model:**')
+    st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+    st.markdown('**Linear Regression Model with UMAP:**')
+    st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
+
+    st.markdown('**Decision Tree Model with UMAP:**')
+    st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
