@@ -33,7 +33,7 @@ if st.button('Predict'):
 
     # Load the Linear Regression model with UMAP and make prediction
     linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
-    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_moodel)
+    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
 
     # Load the Decision Tree model with UMAP and make prediction
     decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
