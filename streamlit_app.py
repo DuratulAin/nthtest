@@ -19,7 +19,10 @@ sample_data = pd.read_csv('Raw spectral 1.csv')
 # st.table(sample_data)
 
 # Load the UMAP model from the joblib file
-umap_model = load_model('umap_model_10.joblib').transform(sample_data)
+umap_model = load_model('umap_model_10.joblib')
+
+# Transform the sample data using the UMAP model
+umap_transformed_data = umap_model.transform(sample_data)
 
 # Button to trigger prediction for both models
 if st.button('Predict'):
@@ -33,11 +36,11 @@ if st.button('Predict'):
 
     # Load the Linear Regression model with UMAP and make prediction
     linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
-    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
+    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_transformed_data)
 
     # Load the Decision Tree model with UMAP and make prediction
     decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
-    decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
+    decision_tree_umap_pred = decision_tree_model_umap.predict(umap_transformed_data)
 
     # Display predictions from both models in a larger and bold format
     st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
