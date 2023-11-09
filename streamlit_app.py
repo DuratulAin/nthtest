@@ -43,13 +43,13 @@ if st.button('Predict'):
     st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
 
     st.markdown('**Linear Regression Model:**')
-    st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+    st.markdown(f'<font size="5"><b>{linear_reg_prediction[4]} g/dL</b></font>', unsafe_allow_html=True)
 
     st.markdown('**Decision Tree Model:**')
-    st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+    st.markdown(f'<font size="5"><b>{decision_tree_prediction[4]} g/dL</b></font>', unsafe_allow_html=True)
 
     st.markdown('**Linear Regression Model with UMAP:**')
-    st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
+    st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[4]:.1f} g/dL</b></font>', unsafe_allow_html=True)
 
     st.markdown('**Decision Tree Model with UMAP:**')
-    st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
+    st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[4]} g/dL</b></font>', unsafe_allow_html=True)
