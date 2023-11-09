@@ -12,7 +12,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load sample data from a CSV file
-sample_data = pd.read_csv('Preprocess_transposed.csv')
+sample_data = pd.read_csv('Preprocess_transposed_1.csv')
 
 # Print out the raw spectral CSV where the first row contains wavelength and the second row contains spectral value
 # st.write('Raw spectral CSV:')
