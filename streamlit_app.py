@@ -10,7 +10,7 @@ def receive_data():
     # Do something with data
     st.write(data)
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     st.title('My App')
     # Rest of streamlit app
 # Function to load a model from a pickle file
