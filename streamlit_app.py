@@ -13,6 +13,7 @@ def receive_data():
 if __name__ == '__main__':
     st.title('My App')
     # Rest of streamlit app
+
 # Function to load a model from a pickle file
 def load_model(model_file):
     with open(model_file, 'rb') as f:
