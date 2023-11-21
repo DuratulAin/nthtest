@@ -11,7 +11,7 @@ def receive_data():
     # Do something with data
     st.write(data)
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     st.title('My App')
     # Rest of streamlit app
 
