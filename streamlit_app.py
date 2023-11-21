@@ -3,6 +3,17 @@ import pandas as pd
 import joblib
 import json
 from flask import request 
+import streamlit as st
+
+@st.experimental_singleton  
+def receive_data():
+    data = request.get_json() 
+    # Do something with data
+    st.write(data)
+
+if _name_ == '_main_':
+    st.title('My App')
+    # Rest of streamlit app
 
 # Function to load a model from a pickle file
 def load_model(model_file):
