@@ -13,7 +13,7 @@ def enable_cors(response):
     return response
 
 @st.experimental_singleton  
-def json_data():
+def receive_data():
     data = request.get_json() 
     # Do something with data
     st.write(data)
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     st.title('My App')
     # Rest of streamlit app
 
-flutterflow_data = json_data()
+flutterflow_data = receive_data()
 print(flutterflow_data)
 
 # Function to load a model from a pickle file
