@@ -5,12 +5,12 @@ import json
 from flask import request 
 from streamlit.web.server.server import Server
 
-# Enable CORS
-Server.enableCORS = True
+# # Enable CORS
+# Server.enableCORS = True
 
-def enable_cors(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    return response
+# def enable_cors(response):
+#     response.headers["Access-Control-Allow-Origin"] = "*"
+#     return response
 
 @st.experimental_singleton  
 def receive_data():
