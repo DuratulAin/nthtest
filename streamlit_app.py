@@ -18,7 +18,7 @@ def receive_data(sendstreamlit):
     # Do something with data
     st.write(data)
 
-flutterflow_data = receive_data()
+flutterflow_data = receive_data(sendstreamlit)
 print(flutterflow_data)
 
 # Function to load a model from a pickle file
