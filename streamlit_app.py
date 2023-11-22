@@ -22,7 +22,7 @@ if __name__ == '__main__':
     st.title('My App')
     # Rest of streamlit app
 
-flutterflow_data = receive_data(sendstreamlit)
+flutterflow_data = receive_data()
 print(flutterflow_data)
 
 # Function to load a model from a pickle file
