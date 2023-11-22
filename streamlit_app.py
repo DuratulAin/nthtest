@@ -12,7 +12,7 @@ from streamlit.web.server.server import Server
 #     response.headers["Access-Control-Allow-Origin"] = "*"
 #     return response
 
-@st.experimental_singleton  
+#@st.experimental_singleton  
 def receive_data(sendstreamlit):
     data = request.get_json(sendstreamlit) 
     # Do something with data
