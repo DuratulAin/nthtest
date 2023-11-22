@@ -12,8 +12,6 @@ def enable_cors(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
-CORS = enable_cors()
-
 @st.experimental_singleton  
 def receive_data():
     data = request.get_json() 
