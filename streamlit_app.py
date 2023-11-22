@@ -13,8 +13,8 @@ def enable_cors(response):
     return response
 
 @st.experimental_singleton  
-def receive_data(sendstreamlit):
-    data = request.get_json(sendstreamlit) 
+def receive_data():
+    data = request.get_json() 
     # Do something with data
     st.write(data)
 
