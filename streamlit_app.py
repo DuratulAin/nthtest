@@ -13,14 +13,10 @@ from streamlit.web.server.server import Server
 #     return response
 
 @st.experimental_singleton  
-def receive_data():
-    data = request.get_json() 
+def receive_data(sendstreamlit):
+    data = request.get_json(sendstreamlit) 
     # Do something with data
     st.write(data)
-
-if __name__ == '__main__':
-    st.title('My App')
-    # Rest of streamlit app
 
 flutterflow_data = receive_data()
 print(flutterflow_data)
