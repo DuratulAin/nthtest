@@ -3,7 +3,16 @@ import pandas as pd
 import joblib
 import json
 from flask import request 
-import streamlit as st
+from streamlit.web.server.server import Server
+
+# Enable CORS
+Server.enableCORS = True
+
+def enable_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+CORS = enable_cors(response)
 
 @st.experimental_singleton  
 def receive_data():
@@ -14,6 +23,9 @@ def receive_data():
 if __name__ == '__main__':
     st.title('My App')
     # Rest of streamlit app
+
+flutterflow_data = receive_data()
+print flutterflow_data
 
 # Function to load a model from a pickle file
 def load_model(model_file):
