@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # Rest of streamlit app
 
 flutterflow_data = receive_data()
-print flutterflow_data
+print(flutterflow_data)
 
 # Function to load a model from a pickle file
 def load_model(model_file):
