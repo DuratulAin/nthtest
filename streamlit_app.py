@@ -5,6 +5,33 @@ import json
 from flask import request 
 from streamlit.web.server.server import Server
 
+# Function to retrieve data from Xano
+def retrieve_data():
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+
+    response = requests.get(xano_api_endpoint, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error("Failed to retrieve data. Status code:", response.status_code)
+        return None
+
+# Main Streamlit app
+def main():
+    st.title("Streamlit App")
+
+    # Retrieve data from Xano
+    data = retrieve_data()
+
+    # Display the retrieved data
+    if data:
+        st.write("Retrieved Data:", data)
+
+if __name__ == "__main__":
+    main()
+
+
 # # Enable CORS
 # Server.enableCORS = True
 
@@ -12,14 +39,14 @@ from streamlit.web.server.server import Server
 #     response.headers["Access-Control-Allow-Origin"] = "*"
 #     return response
 
-@st.experimental_singleton  
-def receive_data(sendstreamlit):
-    data_flutter = request.get_json(sendstreamlit) 
-    # Do something with data
-    st.write(data)
+# @st.experimental_singleton  
+# def receive_data(sendstreamlit):
+#     data_flutter = request.get_json(sendstreamlit) 
+#     # Do something with data
+#     st.write(data)
 
-flutterflow_data = receive_data()
-print(flutterflow_datar)
+# flutterflow_data = receive_data()
+# print(flutterflow_datar)
 
 # Function to load a model from a pickle file
 def load_model(model_file):
