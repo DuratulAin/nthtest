@@ -14,12 +14,12 @@ from streamlit.web.server.server import Server
 
 @st.experimental_singleton  
 def receive_data(sendstreamlit):
-    data = request.get_json(sendstreamlit) 
+    data_flutter = request.get_json(sendstreamlit) 
     # Do something with data
     st.write(data)
 
-flutterflow_data = receive_data()
-print(flutterflow_data)
+#flutterflow_data = receive_data()
+print(data_flutter)
 
 # Function to load a model from a pickle file
 def load_model(model_file):
