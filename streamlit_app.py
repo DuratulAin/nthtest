@@ -4,6 +4,7 @@ import joblib
 import json
 from flask import request 
 from streamlit.web.server.server import Server
+import requests
 
 # Function to retrieve data from Xano
 def retrieve_data():
