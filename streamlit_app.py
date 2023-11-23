@@ -10,7 +10,7 @@ import requests
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
 
-    response = requests.get(xano_api_endpoint, headers=headers)
+    response = requests.get(xano_api_endpoint)
 
     if response.status_code == 200:
         return response.json()
