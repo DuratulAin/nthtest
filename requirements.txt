@@ -6,3 +6,4 @@ streamlit
 scikit-learn
 umap-learn
 flask
+requests
