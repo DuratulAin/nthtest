@@ -7,4 +7,3 @@ scikit-learn
 umap-learn
 flask
 requests
-csv
