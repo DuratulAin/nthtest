@@ -33,6 +33,8 @@ def main():
 
     # Display the retrieved data
     if data:
+        st.write("Retrieved Data:")
+        st.table(pd.DataFrame(data))
 
         # Button to display and download the JSON file
         if st.button('Download JSON File'):
@@ -48,6 +50,12 @@ def get_binary_file_downloader_html(file_path, file_label='File'):
     b64 = base64.b64encode(data.encode()).decode()
     href = f'<a href="data:file/json;base64,{b64}" download="{file_path}">{file_label}</a>'
     return href
+
+# Function to load a model from a pickle file
+def load_model(model_file):
+    with open(model_file, 'rb') as f:
+        model = joblib.load(f)
+    return model
 
 if __name__ == "__main__":
     main()
@@ -66,7 +74,7 @@ if __name__ == "__main__":
 #     st.write(data)
 
 # flutterflow_data = receive_data()
-# print(flutterflow_datar)
+# st.write(flutterflow_data)
 
 # Function to load a model from a pickle file
 def load_model(model_file):
