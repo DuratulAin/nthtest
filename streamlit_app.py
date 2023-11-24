@@ -38,7 +38,7 @@ st.title('Model Prediction App')
 xano_data_df = pd.read_csv('retrieved_data.csv')
 
 # Load the original data
-original_data = pd.read_csv('Raw data all.csv')
+original_data = pd.read_csv('Raw data all w.csv')
 
 # Combbine both Xano and original data in one csv file
 combined_data = pd.concat([xano_data_df, original_data])
