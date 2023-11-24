@@ -8,35 +8,34 @@ import requests
 
 # Function to retrieve data from Xano
 def retrieve_data():
-    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+ xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
 
-    response = requests.get(xano_api_endpoint)
+ response = requests.get(xano_api_endpoint)
 
-    if response.status_code == 200:
-        data = response.json()
-        # Convert the JSON data to a pandas DataFrame
-        df = pd.DataFrame(data)
-        # Print the DataFrame
-        st.dataframe(df)
-        return df
-    else:
-        st.error("Failed to retrieve data. Status code:", response.status_code)
-        return None
+ if response.status_code == 200:
+  return response.json()
+ else:
+  st.error("Failed to retrieve data. Status code:", response.status_code)
+  return None
 
 # Main Streamlit app
 def main():
-    st.title("Streamlit App")
+ st.title("Streamlit App")
 
-    # Retrieve data from Xano
-    data = retrieve_data()
+ # Retrieve data from Xano
+ data = retrieve_data()
 
-    # Display the retrieved data
-    if data:
-        st.write("Retrieved Data:")
+ # Display the retrieved data
+ if data:
+  # Convert the JSON data to a pandas DataFrame
+  data_df = pd.DataFrame(data)
+
+  # Print out the data in a human-readable format
+  st.write("Retrieved Data:")
+  st.dataframe(data_df)
 
 if __name__ == "__main__":
-    main()
-
+ main()
 
 # # Enable CORS
 # Server.enableCORS = True
