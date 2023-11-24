@@ -5,25 +5,25 @@ import requests
 import base64
 from io import StringIO
 
-# Function to retrieve data from Xano and save it as a CSV file
-def retrieve_data():
-    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
+# # Function to retrieve data from Xano and save it as a CSV file
+# def retrieve_data():
+#     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
 
-    response = requests.get(xano_api_endpoint)
+#     response = requests.get(xano_api_endpoint)
 
-    if response.status_code == 200:
-        data = response.json()
+#     if response.status_code == 200:
+#         data = response.json()
 
-        # Convert the Xano data to a pandas DataFrame
-        df = pd.DataFrame(data)
+#         # Convert the Xano data to a pandas DataFrame
+#         df = pd.DataFrame(data)
 
-        # Save the data as a CSV file
-        df.to_csv('retrieved_data.csv', index=False)
+#         # Save the data as a CSV file
+#         df.to_csv('retrieved_data.csv', index=False)
 
-        return df
-    else:
-        st.error("Failed to retrieve data. Status code:", response.status_code)
-        return None
+#         return df
+#     else:
+#         st.error("Failed to retrieve data. Status code:", response.status_code)
+#         return None
 
 # Function to load a model from a pickle file
 def load_model(model_file):
@@ -35,7 +35,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('Raw spectral 1.csv')
+xano_data_df = pd.read_csv('Raw spectral 2.csv')
 
 # Load the UMAP model from the joblib file
 umap_model = load_model('umap_model_10.joblib').transform(xano_data_df)
