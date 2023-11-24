@@ -14,34 +14,14 @@ def retrieve_data():
 
     if response.status_code == 200:
         data = response.json()
+        # Save the data to a JSON file
         with open('data.json', 'w') as outfile:
             json.dump(data, outfile)
+        # Return the data
         return data
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
-
-# Main Streamlit app
-def main():
-    st.title("Streamlit App")
-
-    # Retrieve data from Xano
-    data = retrieve_data()
-
-    # Display the retrieved data
-    if data:
-        st.write("Retrieved Data:", data)
-        # Check the JSON file
-        with open('data.json') as json_file:
-            data_from_file = json.load(json_file)
-            # Verify that the data from the file is the same as the retrieved data
-            if data_from_file == data:
-                st.write("Data from JSON file matches retrieved data.")
-            else:
-                st.write("Data from JSON file differs from retrieved data.")
-
-if __name__ == "__main__":
-    main()
  
 # # Enable CORS
 # Server.enableCORS = True
