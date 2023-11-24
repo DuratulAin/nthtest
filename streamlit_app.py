@@ -31,9 +31,6 @@ def load_model(model_file):
         model = joblib.load(f)
     return model
 
-if __name__ == "__main__":
-    main()
-
 # Streamlit UI elements
 st.title('Model Prediction App')
 
