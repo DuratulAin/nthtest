@@ -6,19 +6,20 @@ from flask import request
 from streamlit.web.server.server import Server
 import requests
 import base64
+from io import StringIO
 
-
-# Function to retrieve data from Xano
+# Function to retrieve data from Xano and save it as a JSON file
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
-    
+
     response = requests.get(xano_api_endpoint)
-    
+
     if response.status_code == 200:
-        # Save the retrieved data as a JSON file
-        with open('xano_data.json', 'w') as jsonfile:
-            json.dump(response.json(), jsonfile)
-        return response.json()
+        data = response.json()
+        # Save the data as a JSON file
+        with open('retrieved_data.json', 'w') as json_file:
+            json.dump(data, json_file)
+        return data
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
@@ -34,15 +35,27 @@ def main():
     if data:
         st.write("Retrieved Data:", data)
 
-        # Add a link to download the JSON file
-        st.markdown("### Download Data")
-        st.markdown(
-            f"Click [here](data:application/json;base64,{base64.b64encode(json.dumps(data).encode()).decode()}) to download the data as a JSON file."
-        )
+        # Button to display and download the JSON file
+        if st.button('Download JSON File'):
+            st.markdown("### Downloading JSON File...")
+            # Display the JSON file content
+            with open('retrieved_data.json', 'r') as json_file:
+                json_content = json.load(json_file)
+                st.json(json_content)
+
+            # Create a link to download the JSON file
+            st.markdown(get_binary_file_downloader_html('retrieved_data.json', 'JSON File'), unsafe_allow_html=True)
+
+# Function to create a download link for a file
+def get_binary_file_downloader_html(file_path, file_label='File'):
+    with open(file_path, 'r') as file:
+        data = file.read()
+    b64 = base64.b64encode(data.encode()).decode()
+    href = f'<a href="data:file/json;base64,{b64}" download="{file_path}">{file_label}</a>'
+    return href
 
 if __name__ == "__main__":
     main()
-
  
 # # Enable CORS
 # Server.enableCORS = True
