@@ -5,23 +5,23 @@ import json
 from flask import request 
 from streamlit.web.server.server import Server
 import requests
+import base64
+
 
 # Function to retrieve data from Xano
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
-
+    
     response = requests.get(xano_api_endpoint)
-
+    
     if response.status_code == 200:
+        # Save the retrieved data as a JSON file
+        with open('xano_data.json', 'w') as jsonfile:
+            json.dump(response.json(), jsonfile)
         return response.json()
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
-
-# Function to save data to a JSON file
-def save_to_json(data, filename='xano_data.json'):
-    with open(filename, 'w') as json_file:
-        json.dump(data, json_file)
 
 # Main Streamlit app
 def main():
@@ -30,15 +30,15 @@ def main():
     # Retrieve data from Xano
     data = retrieve_data()
 
-    # Save the retrieved data to a JSON file
-    if data:
-        save_to_json(data)
-        st.write("Data saved to 'xano_data.json'")
-        st.write("Retrieved Data:", data)
-
     # Display the retrieved data
     if data:
         st.write("Retrieved Data:", data)
+
+        # Add a link to download the JSON file
+        st.markdown("### Download Data")
+        st.markdown(
+            f"Click [here](data:application/json;base64,{base64.b64encode(json.dumps(data).encode()).decode()}) to download the data as a JSON file."
+        )
 
 if __name__ == "__main__":
     main()
