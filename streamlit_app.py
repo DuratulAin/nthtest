@@ -13,7 +13,12 @@ def retrieve_data():
     response = requests.get(xano_api_endpoint)
 
     if response.status_code == 200:
-        return response.json()
+        data = response.json()
+        # Convert the JSON data to a pandas DataFrame
+        df = pd.DataFrame(data)
+        # Print the DataFrame
+        st.dataframe(df)
+        return df
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
@@ -27,7 +32,7 @@ def main():
 
     # Display the retrieved data
     if data:
-        st.write("Retrieved Data:", data)
+        st.write("Retrieved Data:")
 
 if __name__ == "__main__":
     main()
