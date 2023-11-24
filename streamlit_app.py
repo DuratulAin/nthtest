@@ -44,7 +44,7 @@ original_data = pd.read_csv('Raw data all.csv')
 combined_data = pd.concat([xano_data_df, original_data])
 
 # Load the UMAP model from the joblib file
-umap_model = load_model('umap_model_10.joblib').transform(combined_data)
+umap_model = load_model('umap_model_10.joblib').fit_transform(combined_data)
 
 # Button to trigger prediction for both models
 if st.button('Predict'):
