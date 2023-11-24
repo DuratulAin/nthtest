@@ -8,38 +8,40 @@ import requests
 
 # Function to retrieve data from Xano
 def retrieve_data():
- xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
 
- response = requests.get(xano_api_endpoint)
+    response = requests.get(xano_api_endpoint)
 
- if response.status_code == 200:
-  data = response.json()
-  data_list = []
-
-  for item in data:
-      data_list.append(item[0])
-
-  return data_list
- else:
-  st.error("Failed to retrieve data. Status code:", response.status_code)
-  return None
+    if response.status_code == 200:
+        data = response.json()
+        with open('data.json', 'w') as outfile:
+            json.dump(data, outfile)
+        return data
+    else:
+        st.error("Failed to retrieve data. Status code:", response.status_code)
+        return None
 
 # Main Streamlit app
 def main():
- st.title("Streamlit App")
+    st.title("Streamlit App")
 
- # Retrieve data from Xano
- data = retrieve_data()
+    # Retrieve data from Xano
+    data = retrieve_data()
 
- # Display the retrieved data
- if data:
-  # Print out the data without brackets
-  st.write("Retrieved Data:")
-  for item in data:
-       st.write(item)
+    # Display the retrieved data
+    if data:
+        st.write("Retrieved Data:", data)
+        # Check the JSON file
+        with open('data.json') as json_file:
+            data_from_file = json.load(json_file)
+            # Verify that the data from the file is the same as the retrieved data
+            if data_from_file == data:
+                st.write("Data from JSON file matches retrieved data.")
+            else:
+                st.write("Data from JSON file differs from retrieved data.")
 
 if __name__ == "__main__":
- main()
+    main()
  
 # # Enable CORS
 # Server.enableCORS = True
