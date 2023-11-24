@@ -5,25 +5,25 @@ import requests
 import base64
 from io import StringIO
 
-# # Function to retrieve data from Xano and save it as a CSV file
-# def retrieve_data():
-#     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
+# Function to retrieve data from Xano and save it as a CSV file
+def retrieve_data():
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
 
-#     response = requests.get(xano_api_endpoint)
+    response = requests.get(xano_api_endpoint)
 
-#     if response.status_code == 200:
-#         data = response.json()
+    if response.status_code == 200:
+        data = response.json()
 
-#         # Convert the Xano data to a pandas DataFrame
-#         df = pd.DataFrame(data)
+        # Convert the Xano data to a pandas DataFrame
+        df = pd.DataFrame(data)
 
-#         # Save the data as a CSV file
-#         df.to_csv('retrieved_data.csv', index=False)
+        # Save the data as a CSV file
+        df.to_csv('retrieved_data.csv', index=False)
 
-#         return df
-#     else:
-#         st.error("Failed to retrieve data. Status code:", response.status_code)
-#         return None
+        return df
+    else:
+        st.error("Failed to retrieve data. Status code:", response.status_code)
+        return None
 
 # Function to load a model from a pickle file
 def load_model(model_file):
@@ -35,20 +35,26 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('Dummy 1.csv')
+xano_data_df = pd.read_csv('retrieved_data.csv')
+
+# Load the original data
+original_data = pd.read_csv('Raw data all.csv')
+
+# Combbine both Xano and original data in one csv file
+combined_data = pd.concat([xano_data_df, original_data])
 
 # Load the UMAP model from the joblib file
-umap_model = load_model('umap_model_10.joblib').transform(xano_data_df)
+umap_model = load_model('umap_model_10.joblib').transform(combined_data)
 
 # Button to trigger prediction for both models
 if st.button('Predict'):
     # Load the Linear Regression model and make a prediction
     linear_reg_model = load_model('linear_reg_model_10.joblib')
-    linear_reg_prediction = linear_reg_model.predict(xano_data_df)
+    linear_reg_prediction = linear_reg_model.predict(combined_data)
 
     # Load the Decision Tree model and make a prediction
     decision_tree_model = load_model('decision_tree_model_10.joblib')
-    decision_tree_prediction = decision_tree_model.predict(xano_data_df)
+    decision_tree_prediction = decision_tree_model.predict(combined_data)
 
     # Load the Linear Regression model with UMAP and make prediction
     linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
