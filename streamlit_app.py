@@ -31,8 +31,9 @@ def main():
   data_df = pd.DataFrame(data)
 
   # Print out the data in a human-readable format
-  for row in data_df.itertuples():
-    st.write(row)
+  st.write("Retrieved Data:")
+  for item in data:
+    st.write(item)
 
 if __name__ == "__main__":
  main()
