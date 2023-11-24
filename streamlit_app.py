@@ -34,7 +34,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the JSON data
-with open('Raw data all.csv') as jsonfile:
+with open('Raw data all.json') as jsonfile:
  data = json.load(jsonfile)
 
 # Convert the JSON data to a pandas DataFrame
