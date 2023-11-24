@@ -7,10 +7,12 @@ import requests
 # Function to retrieve data from Xano
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+
     response = requests.get(xano_api_endpoint)
 
     if response.status_code == 200:
-        return response.json()
+        data = response.json()
+        return data
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
@@ -23,7 +25,7 @@ def load_model(model_file):
 
 # Main Streamlit app
 def main():
-    st.title("Streamlit App")
+    st.title("Model Prediction App")
 
     # Retrieve data from Xano
     data = retrieve_data()
@@ -53,7 +55,7 @@ def main():
             decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
             decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
 
-            # Display predictions from both models in a larger and bold format
+            # Display predictions from both models
             st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
 
             st.markdown('**Linear Regression Model:**')
