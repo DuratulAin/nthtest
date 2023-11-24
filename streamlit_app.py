@@ -35,7 +35,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('Raw spectral 2.csv')
+xano_data_df = pd.read_csv('Dummy 1.csv')
 
 # Load the UMAP model from the joblib file
 umap_model = load_model('umap_model_10.joblib').transform(xano_data_df)
