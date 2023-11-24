@@ -34,28 +34,28 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the JSON data
-with open('Raw data all.json') as jsonfile:
+with open('Raw data all.csv') as jsonfile:
  data = json.load(jsonfile)
 
 # Convert the JSON data to a pandas DataFrame
-df = pd.DataFrame(data)
+# df = pd.DataFrame(data)
 
 # Print out the raw spectral CSV where the first row contains wavelength and the second row contains spectral value
 #st.write('Raw spectral CSV:')
 #st.table(sample_data)
 
 # Load the UMAP model from the joblib file
-umap_model = load_model('umap_model_10.joblib').transform(df)
+umap_model = load_model('umap_model_10.joblib').transform(data)
 
 # Button to trigger prediction for both models
 if st.button('Predict'):
  # Load the Linear Regression model and make a prediction
  linear_reg_model = load_model('linear_reg_model_10.joblib')
- linear_reg_prediction = linear_reg_model.predict(df)
+ linear_reg_prediction = linear_reg_model.predict(data)
 
  # Load the Decision Tree model and make a prediction
  decision_tree_model = load_model('decision_tree_model_10.joblib')
- decision_tree_prediction = decision_tree_model.predict(df)
+ decision_tree_prediction = decision_tree_model.predict(data)
 
  # Load the Linear Regression model with UMAP and make prediction
  linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
