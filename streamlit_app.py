@@ -31,12 +31,12 @@ def main():
   data_df = pd.DataFrame(data)
 
   # Print out the data in a human-readable format
-  st.write("Retrieved Data:")
-  st.dataframe(data_df)
+  for row in data_df.itertuples():
+    st.write(row)
 
 if __name__ == "__main__":
  main()
-
+ 
 # # Enable CORS
 # Server.enableCORS = True
 
