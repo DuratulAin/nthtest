@@ -6,34 +6,19 @@ from flask import request
 from streamlit.web.server.server import Server
 import requests
 
-# Function to retrieve data from Xano
-def retrieve_data():
-  xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+# Retrieve data from Xano
+xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
+response = requests.get(xano_api_endpoint)
 
-  response = requests.get(xano_api_endpoint)
+# Parse the data into a JSON object
+data = json.loads(response.text)
 
-  if response.status_code == 200:
-    data = response.json()
-    with open('data.json', 'w') as outfile:
-      json.dump(data, outfile)
-    return data
-  else:
-    st.error("Failed to retrieve data. Status code:", response.status_code)
-    return None
+# Save the JSON object to a file
+with open('data.json', 'w') as outfile:
+    json.dump(data, outfile)
 
-# Main Streamlit app
-def main():
-  st.title("Streamlit App")
-
-  # Retrieve data from Xano
-  data = retrieve_data()
-
-  # Display the retrieved data
-  if data:
-    st.write("Retrieved Data:", data)
-
-if __name__ == "__main__":
-  main()
+# Print the JSON data
+print(data)
 
 # Show the JSON file
 with open('data.json') as jsonfile:
