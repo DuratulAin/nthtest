@@ -6,24 +6,38 @@ from flask import request
 from streamlit.web.server.server import Server
 import requests
 
-# Retrieve data from Xano
-xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
-response = requests.get(xano_api_endpoint)
+# Function to retrieve data from Xano
+def retrieve_data():
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/data'
 
-# Parse the data into a JSON object
-data = json.loads(response.text)
+    response = requests.get(xano_api_endpoint)
 
-# Save the JSON object to a file
-with open('data.json', 'w') as outfile:
-    json.dump(data, outfile)
+    if response.status_code == 200:
+        data = response.json()
 
-# Print the JSON data
-print(data)
+        # Save the JSON data to a file
+        with open('data.json', 'w') as f:
+            json.dump(data, f)
 
-# Show the JSON file
-with open('data.json') as jsonfile:
-  data = json.load(jsonfile)
-  st.write(data)
+        return data
+    else:
+        st.error("Failed to retrieve data. Status code:", response.status_code)
+        return None
+
+# Main Streamlit app
+def main():
+    st.title("Streamlit App")
+
+    # Retrieve data from Xano
+    data = retrieve_data()
+
+    # Display the retrieved data
+    if data:
+        st.write("Retrieved Data:", data)
+
+if __name__ == "__main__":
+    main()
+
  
 # # Enable CORS
 # Server.enableCORS = True
