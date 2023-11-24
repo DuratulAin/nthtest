@@ -33,15 +33,10 @@ def main():
 
     # Display the retrieved data
     if data:
-        st.write("Retrieved Data:", data)
 
         # Button to display and download the JSON file
         if st.button('Download JSON File'):
             st.markdown("### Downloading JSON File...")
-            # Display the JSON file content
-            with open('retrieved_data.json', 'r') as json_file:
-                json_content = json.load(json_file)
-                st.json(json_content)
 
             # Create a link to download the JSON file
             st.markdown(get_binary_file_downloader_html('retrieved_data.json', 'JSON File'), unsafe_allow_html=True)
