@@ -13,16 +13,15 @@ def retrieve_data():
     response = requests.get(xano_api_endpoint)
 
     if response.status_code == 200:
-        data = response.json()
-
-        # Save the JSON data to a file
-        with open('data.json', 'w') as f:
-            json.dump(data, f)
-
-        return data
+        return response.json()
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
+
+# Function to save data to a JSON file
+def save_to_json(data, filename='xano_data.json'):
+    with open(filename, 'w') as json_file:
+        json.dump(data, json_file)
 
 # Main Streamlit app
 def main():
@@ -30,6 +29,12 @@ def main():
 
     # Retrieve data from Xano
     data = retrieve_data()
+
+    # Save the retrieved data to a JSON file
+    if data:
+        save_to_json(data)
+        st.write("Data saved to 'xano_data.json'")
+        st.write("Retrieved Data:", data)
 
     # Display the retrieved data
     if data:
