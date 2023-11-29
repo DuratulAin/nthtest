@@ -4,7 +4,6 @@ import joblib
 import requests
 import base64
 from io import StringIO
-from github import Github
 
 # Function to retrieve data from Xano and save it as a CSV file
 def retrieve_data():
