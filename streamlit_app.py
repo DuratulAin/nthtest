@@ -34,7 +34,7 @@ def upload_to_github():
     github_username = 'DuratulAin'
 
     # Replace 'YOUR_REPO_NAME' with the desired repository name
-    repo_name = 'DuratulAin/nthtest'
+    repo_name = 'nthtest'
 
     # Create a GitHub repository
     g = Github(github_token)
