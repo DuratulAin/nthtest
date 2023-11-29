@@ -4,6 +4,7 @@ import joblib
 import requests
 import base64
 from io import StringIO
+from github import Github
 
 # Function to retrieve data from Xano and save it as a CSV file
 def retrieve_data():
@@ -24,6 +25,44 @@ def retrieve_data():
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
+
+# Function to upload data to GitHub
+def upload_to_github():
+    # Replace 'YOUR_GITHUB_TOKEN' with your actual GitHub personal access token
+    github_token = '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'
+
+    # Replace 'YOUR_USERNAME' with your GitHub username
+    github_username = 'DuratulAin'
+
+    # Replace 'YOUR_REPO_NAME' with the desired repository name
+    repo_name = 'DuratulAin/nthtest'
+
+    # Create a GitHub repository
+    g = Github(github_token)
+    user = g.get_user()
+    repo = user.create_repo(repo_name)
+
+    # Commit and push the data file to the GitHub repository
+    with open('retrieved_data.csv', 'rb') as file:
+        content = file.read()
+        repo.create_file('retrieved_data.csv', 'Initial commit', content)
+
+# Main Streamlit app
+def main():
+    st.title("Streamlit App")
+
+    # Retrieve data from Xano
+    data_df = retrieve_data()
+
+    # Display the retrieved data
+    if data_df is not None:
+        st.write("Retrieved Data:")
+        st.table(data_df)
+
+        # Upload data to GitHub
+        if st.button('Upload Data to GitHub'):
+            st.markdown("### Uploading Data to GitHub...")
+            upload_to_github()
 
 # Function to load a model from a pickle file
 def load_model(model_file):
@@ -72,3 +111,7 @@ if st.button('Predict'):
 
     st.markdown('**Decision Tree Model with UMAP:**')
     st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
+# Rest of your code...
+
+if __name__ == "__main__":
+    main()
