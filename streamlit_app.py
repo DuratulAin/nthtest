@@ -25,38 +25,6 @@ def retrieve_data():
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
 
-# Function to upload data to GitHub
-def upload_to_github():
-    # Replace 'YOUR_GITHUB_TOKEN' with your actual GitHub personal access token
-    github_token = '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'
-
-    # Replace 'YOUR_USERNAME' with your GitHub username
-    github_username = 'DuratulAin'
-
-    # Replace 'YOUR_REPO_NAME' with the desired repository name
-    repo_name = 'nthtest'
-
-    # Create a GitHub repository
-    g = Github(github_token)
-    user = g.get_user()
-    repo = None
-
-    try:
-        repo = user.get_repo(repo_name)
-    except Exception as e:
-        st.warning(f"Repository '{repo_name}' not found. Creating a new repository.")
-        repo = user.create_repo(repo_name)
-
-    # Save the data as a CSV file
-    csv_content = data_df.to_csv(index=False)
-
-    # Commit and push the data file to the GitHub repository
-    try:
-        repo.create_file('retrieved_data.csv', 'Update data', csv_content)
-        st.success("Data uploaded to GitHub successfully.")
-    except Exception as e:
-        st.error(f"Failed to upload data to GitHub. Error: {e}")
-
 # Main Streamlit app
 def main():
     st.title("Streamlit App")
@@ -69,16 +37,29 @@ def main():
         st.write("Retrieved Data:")
         st.table(data_df)
 
-        # Upload data to GitHub
-        if st.button('Upload Data to GitHub'):
-            st.markdown("### Uploading Data to GitHub...")
-            upload_to_github(data_df)
+        # Button to display and download the CSV file
+        if st.button('Download CSV File'):
+            st.markdown("### Downloading CSV File...")
+
+            # Create a link to download the CSV file
+            st.markdown(get_binary_file_downloader_html('retrieved_data.csv', 'CSV File'), unsafe_allow_html=True)
+
+# Function to create a download link for a file
+def get_binary_file_downloader_html(file_path, file_label='File'):
+    with open(file_path, 'r') as file:
+        data = file.read()
+    b64 = base64.b64encode(data.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="{file_path}">{file_label}</a>'
+    return href
 
 # Function to load a model from a pickle file
 def load_model(model_file):
     with open(model_file, 'rb') as f:
         model = joblib.load(f)
     return model
+
+if __name__ == "__main__":
+    main()
 
 # Streamlit UI elements
 st.title('Model Prediction App')
@@ -121,6 +102,3 @@ if st.button('Predict'):
 
     st.markdown('**Decision Tree Model with UMAP:**')
     st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
