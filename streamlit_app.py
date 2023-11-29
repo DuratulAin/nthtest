@@ -57,35 +57,67 @@ st.write(xano_data_df)
 # Load the UMAP model from the joblib file
 umap_model = load_model('umap_model_10.joblib').transform(combined_data)
 
-# Button to trigger prediction for both models
-if st.button('Predict'):
-    # Load the Linear Regression model and make a prediction
-    linear_reg_model = load_model('linear_reg_model_10.joblib')
-    linear_reg_prediction = linear_reg_model.predict(combined_data)
+# Load the Linear Regression model and make a prediction
+linear_reg_model = load_model('linear_reg_model_10.joblib')
+linear_reg_prediction = linear_reg_model.predict(combined_data)
 
-    # Load the Decision Tree model and make a prediction
-    decision_tree_model = load_model('decision_tree_model_10.joblib')
-    decision_tree_prediction = decision_tree_model.predict(combined_data)
+# Load the Decision Tree model and make a prediction
+decision_tree_model = load_model('decision_tree_model_10.joblib')
+decision_tree_prediction = decision_tree_model.predict(combined_data)
 
-    # Load the Linear Regression model with UMAP and make prediction
-    linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
-    linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
+# Load the Linear Regression model with UMAP and make prediction
+linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
+linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
 
-    # Load the Decision Tree model with UMAP and make prediction
-    decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
-    decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
+# Load the Decision Tree model with UMAP and make prediction
+decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
+decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
 
-    # Display predictions from both models in a larger and bold format
-    st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
+# Display predictions from both models in a larger and bold format
+st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
 
-    st.markdown('**Linear Regression Model:**')
-    st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+st.markdown('**Linear Regression Model:**')
+st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
 
-    st.markdown('**Decision Tree Model:**')
-    st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+st.markdown('**Decision Tree Model:**')
+st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
 
-    st.markdown('**Linear Regression Model with UMAP:**')
-    st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
+st.markdown('**Linear Regression Model with UMAP:**')
+st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
 
-    st.markdown('**Decision Tree Model with UMAP:**')
-    st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
+st.markdown('**Decision Tree Model with UMAP:**')
+st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+
+# # Button to trigger prediction for both models
+# if st.button('Predict'):
+#     # Load the Linear Regression model and make a prediction
+#     linear_reg_model = load_model('linear_reg_model_10.joblib')
+#     linear_reg_prediction = linear_reg_model.predict(combined_data)
+
+#     # Load the Decision Tree model and make a prediction
+#     decision_tree_model = load_model('decision_tree_model_10.joblib')
+#     decision_tree_prediction = decision_tree_model.predict(combined_data)
+
+#     # Load the Linear Regression model with UMAP and make prediction
+#     linear_reg_model_umap = load_model('linear_reg_model_umap_10.joblib')
+#     linear_reg_umap_pred = linear_reg_model_umap.predict(umap_model)
+
+#     # Load the Decision Tree model with UMAP and make prediction
+#     decision_tree_model_umap = load_model('decision_tree_model_umap_10.joblib')
+#     decision_tree_umap_pred = decision_tree_model_umap.predict(umap_model)
+
+#     # Display predictions from both models in a larger and bold format
+#     st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
+
+#     st.markdown('**Linear Regression Model:**')
+#     st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+#     st.markdown('**Decision Tree Model:**')
+#     st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+#     st.markdown('**Linear Regression Model with UMAP:**')
+#     st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
+
+#     st.markdown('**Decision Tree Model with UMAP:**')
+#     st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
