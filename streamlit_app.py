@@ -18,7 +18,7 @@ def retrieve_data():
         df = pd.DataFrame(data)
 
         # Save the data as a CSV file
-        df.to_csv('retrieved_data.csv', index=False)
+        df.to_csv('xano_data.csv', index=False)
 
         return df
     else:
@@ -35,7 +35,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('retrieved_data.csv')
+xano_data_df = pd.read_csv('xano_data.csv')
 
 # Load the original data
 original_data = pd.read_csv('Raw data all w.csv')
