@@ -39,12 +39,23 @@ def upload_to_github():
     # Create a GitHub repository
     g = Github(github_token)
     user = g.get_user()
-    repo = user.create_repo(repo_name)
+    repo = None
+
+    try:
+        repo = user.get_repo(repo_name)
+    except Exception as e:
+        st.warning(f"Repository '{repo_name}' not found. Creating a new repository.")
+        repo = user.create_repo(repo_name)
+
+    # Save the data as a CSV file
+    csv_content = data_df.to_csv(index=False)
 
     # Commit and push the data file to the GitHub repository
-    with open('retrieved_data.csv', 'rb') as file:
-        content = file.read()
-        repo.create_file('retrieved_data.csv', 'Initial commit', content)
+    try:
+        repo.create_file('retrieved_data.csv', 'Update data', csv_content)
+        st.success("Data uploaded to GitHub successfully.")
+    except Exception as e:
+        st.error(f"Failed to upload data to GitHub. Error: {e}")
 
 # Main Streamlit app
 def main():
@@ -61,7 +72,7 @@ def main():
         # Upload data to GitHub
         if st.button('Upload Data to GitHub'):
             st.markdown("### Uploading Data to GitHub...")
-            upload_to_github()
+            upload_to_github(data_df)
 
 # Function to load a model from a pickle file
 def load_model(model_file):
@@ -110,7 +121,6 @@ if st.button('Predict'):
 
     st.markdown('**Decision Tree Model with UMAP:**')
     st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
-# Rest of your code...
 
 if __name__ == "__main__":
     main()
