@@ -51,9 +51,9 @@ xano_data_df = pd.read_csv('retrieved_data.csv')
 original_data = pd.read_csv('Raw data all w.csv')
 
 # Combine both datas
-combined_data = pd.concat([xano_data_df, original_data])
+combined_data = pd.concat([xano_data_df.head(1), original_data])
 
-st.dataframe(xano_data_df)
+st.dataframe(xano_data_df.head(1))
 st.dataframe(original_data)
 st.dataframe(combined_data)
 
