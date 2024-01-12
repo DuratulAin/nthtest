@@ -18,14 +18,14 @@ def retrieve_data():
         # Convert the Xano data to a pandas DataFrame
         df = pd.DataFrame(data)
 
-        # Save the data as a CSV file
-        df.to_csv('retrieved_data.csv', index=False)
+        # Save only the first row as a CSV file
+        df.iloc[:1].to_csv('retrieved_data.csv', index=False)
 
-        return df
+        return df.iloc[:1]  # Return only the first row
     else:
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
-
+        
 # Main Streamlit app
 def main():
 
@@ -51,9 +51,9 @@ xano_data_df = pd.read_csv('retrieved_data.csv')
 original_data = pd.read_csv('Raw data all w.csv')
 
 # Combine both datas
-combined_data = pd.concat([xano_data_df.head(1), original_data])
+combined_data = pd.concat([xano_data_df.iloc[:1], original_data])
 
-st.dataframe(xano_data_df.head(1))
+st.dataframe(xano_data_df)
 st.dataframe(original_data)
 st.dataframe(combined_data)
 
