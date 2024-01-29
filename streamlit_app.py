@@ -6,7 +6,7 @@ import base64
 from io import StringIO
 
 # Function to retrieve spectral data from Xano and save it as a CSV file
-def retrieve_data():
+def spectral_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
     payload = {}
 
@@ -27,7 +27,7 @@ def retrieve_data():
         return None
 
 # Function to retrieve background data from Xano and save it as a CSV file
-def retrieve_data():
+def background_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
     payload = {}
 
@@ -51,10 +51,10 @@ def retrieve_data():
 def main():
 
     # Retrieve data from Xano
-    spectral_data_df = retrieve_data()
+    spectral_data_df = spectral_data()
 
     # Retrieve data from Xano
-    background_data_df = retrieve_data()
+    background_data_df = background_data()
 
 # Function to load a model from a pickle file
 def load_model(model_file):
