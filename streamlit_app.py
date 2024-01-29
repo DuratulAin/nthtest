@@ -13,12 +13,13 @@ def retrieve_data():
 
     if response.status_code == 200:
         data = response.json()
+        # Convert the Xano data to a pandas DataFrame
         df = pd.DataFrame(data)
+        # Save only the first row as a CSV file
         df.iloc[:1].to_csv('retrieved_data.csv', index=False)
-        return df.iloc[:1]
+        return df.iloc[:1]  # Return only the first row
     else:
-        # Corrected error message
-        st.error(f"Failed to retrieve data. Status code: {response.status_code}")
+        st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
 
 # Function to load a model from a pickle file
@@ -80,6 +81,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
