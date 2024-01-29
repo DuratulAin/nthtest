@@ -8,31 +8,25 @@ def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk\\_Gn6/spectral\\_data'
     payload = {}
     response = requests.get(xano_api_endpoint, params=payload)
-
     if response.status_code == 200:
         data = response.json()
-        # Convert the Xano data to a pandas DataFrame
         df = pd.DataFrame(data)
-        # Save only the first row as a CSV file
         df.iloc[:1].to_csv('spectral_data.csv', index=False)
-        return df.iloc[:1]  # Return only the first row
+        return df.iloc[:1]
     else:
         st.error(f"Failed to retrieve data. Status code: {response.status_code}")
         return None
 
-# New function to retrieve background data from a new Xano API endpoint
+# Function to retrieve background data from a new Xano API endpoint
 def retrieve_background_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
     payload = {}
     response = requests.get(xano_api_endpoint, params=payload)
-
     if response.status_code == 200:
         data = response.json()
-        # Convert the Xano data to a pandas DataFrame
         df = pd.DataFrame(data)
-        # Save as a CSV file
-        df.to_csv('background_data.csv', index=False)
-        return df
+        df.iloc[:1].to_csv('background_data.csv', index=False)
+        return df.iloc[:1]
     else:
         st.error(f"Failed to retrieve background data. Status code: {response.status_code}")
         return None
@@ -58,7 +52,7 @@ def main():
     # Load the CSV data of original data
     original_data = pd.read_csv('Raw data all w.csv')
 
-    # Combine both datas
+    # Combine both datasets
     combined_data = pd.concat([xano_data_df.iloc[:1], original_data])
 
     st.dataframe(xano_data_df)
@@ -102,6 +96,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
