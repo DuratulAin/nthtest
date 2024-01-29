@@ -32,7 +32,7 @@ def retrieve_background_data():
         df = pd.DataFrame(data)
         # Save as a CSV file
         df.to_csv('background_data.csv', index=False)
-        return df.iloc[:1]
+        return df
     else:
         st.error(f"Failed to retrieve background data. Status code: {response.status_code}")
         return None
@@ -98,7 +98,11 @@ def main():
     st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
 
     st.markdown('**Decision Tree Model with UMAP:**')
-    st.markdown(f'<font size="5"><b>{decision_tree_um
+    st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
+
 
 
 
