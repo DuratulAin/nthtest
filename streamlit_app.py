@@ -2,33 +2,24 @@ import streamlit as st
 import pandas as pd
 import joblib
 import requests
+import base64
+from io import StringIO
 
 # Function to retrieve data from Xano and save it as a CSV file
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk\\_Gn6/spectral\\_data'
     payload = {}
     response = requests.get(xano_api_endpoint, params=payload)
-    if response.status_code == 200:
-        data = response.json()
-        df = pd.DataFrame(data)
-        df.iloc[:1].to_csv('spectral_data.csv', index=False)
-        return df.iloc[:1]
-    else:
-        st.error(f"Failed to retrieve data. Status code: {response.status_code}")
-        return None
 
-# Function to retrieve background data from a new Xano API endpoint
-def retrieve_background_data():
-    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
-    payload = {}
-    response = requests.get(xano_api_endpoint, params=payload)
     if response.status_code == 200:
         data = response.json()
+        # Convert the Xano data to a pandas DataFrame
         df = pd.DataFrame(data)
-        df.iloc[:1].to_csv('background_data.csv', index=False)
-        return df.iloc[:1]
+        # Save only the first row as a CSV file
+        df.iloc[:1].to_csv('retrieved_data.csv', index=False)
+        return df.iloc[:1]  # Return only the first row
     else:
-        st.error(f"Failed to retrieve background data. Status code: {response.status_code}")
+        st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
 
 # Function to load a model from a pickle file
@@ -41,22 +32,20 @@ def load_model(model_file):
 def main():
     # Retrieve data from Xano
     data_df = retrieve_data()
-    background_data_df = retrieve_background_data()
 
     # Streamlit UI elements
     st.title('Model Prediction App')
 
     # Load the CSV data from Xano
-    xano_data_df = pd.read_csv('spectral_data.csv')
+    xano_data_df = pd.read_csv('retrieved_data.csv')
 
     # Load the CSV data of original data
     original_data = pd.read_csv('Raw data all w.csv')
 
-    # Combine both datasets
+    # Combine both datas
     combined_data = pd.concat([xano_data_df.iloc[:1], original_data])
 
     st.dataframe(xano_data_df)
-    st.dataframe(background_data_df)
     st.dataframe(original_data)
     st.dataframe(combined_data)
 
@@ -81,21 +70,18 @@ def main():
 
     # Display predictions from both models in a larger and bold format
     st.markdown('<font size="6"><b>Predictions:</b></font>', unsafe_allow_html=True)
-
     st.markdown('**Linear Regression Model:**')
     st.markdown(f'<font size="5"><b>{linear_reg_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
-
     st.markdown('**Decision Tree Model:**')
     st.markdown(f'<font size="5"><b>{decision_tree_prediction[0]} g/dL</b></font>', unsafe_allow_html=True)
-
     st.markdown('**Linear Regression Model with UMAP:**')
     st.markdown(f'<font size="5"><b>{linear_reg_umap_pred[0]:.1f} g/dL</b></font>', unsafe_allow_html=True)
-
     st.markdown('**Decision Tree Model with UMAP:**')
     st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
+
 
 
 
