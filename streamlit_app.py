@@ -23,7 +23,7 @@ def retrieve_data():
 
 # New function to retrieve background data from a new Xano API endpoint
 def retrieve_background_data():
-    xano_api_endpoint = 'YOUR_NEW_XANO_API_ENDPOINT'
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'  # Replace with your actual API endpoint
     payload = {}
     response = requests.get(xano_api_endpoint, params=payload)
 
@@ -35,7 +35,7 @@ def retrieve_background_data():
         df.to_csv('background_data.csv', index=False)
         return df
     else:
-        st.error("Failed to retrieve background data. Status code:", response.status_code)
+        st.error(f"Failed to retrieve background data. Status code: {response.status_code}")
         return None
 
 # Main Streamlit app
