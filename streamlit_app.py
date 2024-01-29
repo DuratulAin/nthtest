@@ -22,12 +22,6 @@ def retrieve_data():
         st.error("Failed to retrieve data. Status code:", response.status_code)
         return None
 
-# Function to load a model from a pickle file
-def load_model(model_file):
-    with open(model_file, 'rb') as f:
-        model = joblib.load(f)
-    return model
-
 # Main Streamlit app
 def main():
     # Retrieve data from Xano
@@ -36,6 +30,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Function to load a model from a pickle file
+def load_model(model_file):
+    with open(model_file, 'rb') as f:
+        model = joblib.load(f)
+    return model
 
 # Streamlit UI elements
 st.title('Model Prediction App')
