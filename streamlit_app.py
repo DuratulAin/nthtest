@@ -19,7 +19,8 @@ def retrieve_data():
         df.iloc[:1].to_csv('retrieved_data.csv', index=False)
         return df.iloc[:1]  # Return only the first row
     else:
-        st.error("Failed to retrieve data. Status code:", response.status_code)
+        error_message = "Failed to retrieve data. Status code: " + str(response.status_code)
+        st.error(error_message)
         return None
 
 # Main Streamlit app
