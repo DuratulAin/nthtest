@@ -18,7 +18,7 @@ def retrieve_data():
         df.iloc[:1].to_csv('spectral_data.csv', index=False)
         return df.iloc[:1] # Return only the first row
     else:
-        st.error("Failed to retrieve data. Status code:", response.status_code)
+        st.error(f"Failed to retrieve data. Status code: {response.status_code}")
         return None
 
 # New function to retrieve background data from a new Xano API endpoint
