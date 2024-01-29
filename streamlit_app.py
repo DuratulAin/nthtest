@@ -26,7 +26,7 @@ def retrieve_background_data():
         data = response.json()
         df = pd.DataFrame(data)
         df.to_csv('background_data.csv', index=False)
-        return df
+        return df.iloc[:1]
     else:
         st.error(f"Failed to retrieve background data. Status code: {response.status_code}")
         return None
