@@ -27,17 +27,17 @@ def spectral_data():
         return None
 
 # Function to retrieve background data from Xano and save it as a CSV file
-def background_data():
+def bg_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
     payload = {}
 
     response = requests.get(xano_api_endpoint, params=payload)
 
     if response.status_code == 200:
-        data = response.json()
+        data_bg = response.json()
 
         # Convert the Xano data to a pandas DataFrame
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data_bg)
 
         # Save only the first row as a CSV file
         df.iloc[:1].to_csv('background_data.csv', index=False)
@@ -51,10 +51,10 @@ def background_data():
 def main():
 
     # Retrieve data from Xano
-    spectral_data_df = spectral_data()
+    data_df = spectral_data()
 
     # Retrieve data from Xano
-    background_data_df = background_data()
+    dataBG_df = bg_data()
 
 # Function to load a model from a pickle file
 def load_model(model_file):
