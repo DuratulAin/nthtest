@@ -5,7 +5,7 @@ import requests
 import base64
 from io import StringIO
 
-# Function to retrieve data from Xano and save it as a CSV file
+# Function to retrieve spectral data from Xano and save it as a CSV file
 def retrieve_data():
     xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
     payload = {}
@@ -19,7 +19,28 @@ def retrieve_data():
         df = pd.DataFrame(data)
 
         # Save only the first row as a CSV file
-        df.iloc[:1].to_csv('retrieved_data.csv', index=False)
+        df.iloc[:1].to_csv('spectral_data.csv', index=False)
+
+        return df.iloc[:1]  # Return only the first row
+    else:
+        st.error("Failed to retrieve data. Status code:", response.status_code)
+        return None
+
+# Function to retrieve background data from Xano and save it as a CSV file
+def retrieve_data():
+    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
+    payload = {}
+
+    response = requests.get(xano_api_endpoint, params=payload)
+
+    if response.status_code == 200:
+        data = response.json()
+
+        # Convert the Xano data to a pandas DataFrame
+        df = pd.DataFrame(data)
+
+        # Save only the first row as a CSV file
+        df.iloc[:1].to_csv('background_data.csv', index=False)
 
         return df.iloc[:1]  # Return only the first row
     else:
@@ -30,7 +51,10 @@ def retrieve_data():
 def main():
 
     # Retrieve data from Xano
-    data_df = retrieve_data()
+    spectral_data_df = retrieve_data()
+
+    # Retrieve data from Xano
+    background_data_df = retrieve_data()
 
 # Function to load a model from a pickle file
 def load_model(model_file):
@@ -45,7 +69,7 @@ if __name__ == "__main__":
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('retrieved_data.csv')
+xano_data_df = pd.read_csv('spectral_data.csv')
 
 # Load the CSV data of original data
 original_data = pd.read_csv('Raw data all w.csv')
@@ -54,8 +78,10 @@ original_data = pd.read_csv('Raw data all w.csv')
 combined_data = pd.concat([xano_data_df.iloc[:1], original_data])
 
 st.dataframe(xano_data_df)
+st.dataframe(background_data_df)
 st.dataframe(original_data)
 st.dataframe(combined_data)
+
 
 # Load the UMAP model from the joblib file
 umap_model = load_model('umap_model_10.joblib').transform(combined_data)
