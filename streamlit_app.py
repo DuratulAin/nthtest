@@ -22,7 +22,7 @@ def retrieve_data():
     payload_spectral = {}
     response_spectral = requests.get(xano_api_endpoint_spectral, params=payload_spectral)
 
-    if response.status_code == 200:
+    if response_spectral.status_code == 200:
         data_spectral = response_spectral.json()
     else:
         error_message = "Failed to retrieve data. Status code: " + str(response_spectral.status_code)
