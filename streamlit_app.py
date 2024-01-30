@@ -62,7 +62,7 @@ linear_reg_model = load_model('linear_reg_model_10.joblib')
 linear_reg_prediction = linear_reg_model.predict(combined_data)
 
 # Load the Decision Tree model and make a prediction
-decision_tree_model = load_model('decision_tree_model_10.joblib')
+decision_tree_model = load_model('decision_tree_model_new_umap_10.joblib')
 decision_tree_prediction = decision_tree_model.predict(combined_data)
 
 # Load the Linear Regression model with UMAP and make prediction
