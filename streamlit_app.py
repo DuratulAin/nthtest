@@ -7,21 +7,37 @@ from io import StringIO
 
 # Function to retrieve data from Xano and save it as a CSV file
 def retrieve_data():
-    xano_api_endpoint = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
-    payload = {}
-    response = requests.get(xano_api_endpoint, params=payload)
+    xano_api_endpoint_bg = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/BackgroundReading'
+    payload_bg = {}
+    response_bg = requests.get(xano_api_endpoint_bg, params=payload_bg)
 
-    if response.status_code == 200:
-        data = response.json()
-        # Convert the Xano data to a pandas DataFrame
-        df = pd.DataFrame(data)
-        # Save only the first row as a CSV file
-        df.iloc[:1].to_csv('retrieved_data.csv', index=False)
-        return df.iloc[:1]  # Return only the first row
+    if response_bg.status_code == 200:
+        data_bg = response_bg.json()
     else:
-        error_message = "Failed to retrieve data. Status code: " + str(response.status_code)
+        error_message = "Failed to retrieve data. Status code: " + str(response_bg.status_code)
         st.error(error_message)
         return None
+
+    xano_api_endpoint_spectral = 'https://x8ki-letl-twmt.n7.xano.io/api:U4wk_Gn6/spectral_data'
+    payload_spectral = {}
+    response_spectral = requests.get(xano_api_endpoint_spectral, params=payload_spectral)
+
+    if response.status_code == 200:
+        data_spectral = response_spectral.json()
+    else:
+        error_message = "Failed to retrieve data. Status code: " + str(response_spectral.status_code)
+        st.error(error_message)
+        return None
+
+    # Extract first line and convert to numeric
+    df_bg = pd.DataFrame(data_bg).iloc[:1].apply(pd.to_numeric, errors='coerce')
+    df_spectral = pd.DataFrame(data_spectral).iloc[:1].apply(pd.to_numeric, errors='coerce')
+
+    # Calculate absorbance
+    absorbance = df_bg.div(df_spectral.values).pow(2)
+
+    absorbance.to_csv('absorbance_data.csv', index=False)
+    return absorbance
 
 # Main Streamlit app
 def main():
@@ -42,13 +58,13 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('retrieved_data.csv')
+xano_data_df = pd.read_csv('absorbance_data.csv')
 
 # Load the CSV data of original data
 original_data = pd.read_csv('Raw data all w.csv')
 
 # Combine both datas
-combined_data = pd.concat([xano_data_df.iloc[:1], original_data])
+combined_data = pd.concat([xano_data_df, original_data])
 
 st.dataframe(xano_data_df)
 st.dataframe(original_data)
