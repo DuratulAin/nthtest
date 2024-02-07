@@ -37,7 +37,7 @@ def retrieve_data():
     # Calculate absorbance
     absorbance = df_bg.div(df_spectral.values).pow(2)
 
-    absorbance.to_csv('absorbance_data.csv', index=False)
+    absorbance.to_csv('absorbanceData.csv', index=False)
     return absorbance
 
 # Main Streamlit app
@@ -59,7 +59,7 @@ def load_model(model_file):
 st.title('Model Prediction App')
 
 # Load the CSV data from Xano
-xano_data_df = pd.read_csv('absorbance_data.csv')
+xano_data_df = pd.read_csv('absorbanceData.csv')
 
 # Load the CSV data of original data
 original_data = pd.read_csv('Raw data all w.csv')
