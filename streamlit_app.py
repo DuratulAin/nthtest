@@ -103,6 +103,7 @@ st.markdown(f'<font size="5"><b>{decision_tree_umap_pred[0]} g/dL</b></font>', u
 
 
 
+
 # # Button to trigger prediction for both models
 # if st.button('Predict'):
 #     # Load the Linear Regression model and make a prediction
