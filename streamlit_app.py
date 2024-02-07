@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import requests
 import base64
+import umap
 from io import StringIO
 
 # Function to retrieve data from Xano and save it as a CSV file
